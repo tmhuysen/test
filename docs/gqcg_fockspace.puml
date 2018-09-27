@@ -1,0 +1,99 @@
+@startuml
+
+namespace gqcg {
+
+
+    class ONV{
+        __ private members __
+            - *size_t occupation_array
+            - size_t/custom_t bit_representation
+        == constructors ==
+            **ONV**(size_t N)
+            **ONV**(size_t N, size_t/custom_t bit_representation)
+        __ public methods __
+            + GeneralBitFunctionality()
+    }
+    abstract class BaseFockSpace{
+        __ private members __
+            # size_t K
+        __ public methods __
+            + virtual ONV get_ONV(size_t address) = 0
+    }
+
+    class FockSpace {
+        __ private members __
+            - Matrix vertex_weights
+            - const size_t N
+            - const size_t dim
+        == constructors ==
+            **FockSpace**(size_t K, size_t N)
+        __ public methods __
+            + ONV get_ONV(size_t address)
+            + size_t get_vertex_weights(size_t p, size_t m)
+    }
+
+    class SelectedFockSpace {
+        __ private members __
+            - SelectedCISupport
+            - const size_t N_A
+            - const size_t N_B
+            - const size_t full_dim
+            - const size_t considered_dim
+        == constructors ==
+            **SelectedFockSpace**(size_t K, size_t N_B, size_t N_A, std::vector<address_pair> address_list);
+        __ public methods __
+            + ONV get_ONV(size_t address)
+    }
+
+    BaseFockSpace --|> FockSpace
+    BaseFockSpace --|> SelectedFockSpace
+
+
+    abstract RestrictedHamiltonianBuilder{
+        __ protected members __
+            # HamiltonianParameters_sptr hamiltonian_parameters
+            # OneElectronOperator_sptr h
+            # TwoElectronOperator_sptr g
+        __ public methods __
+            + virtual Eigen::MatrixXd constructHamiltonian() = 0
+            + virtual Eigen::VectorXd matrixVectorProduct(const Eigen::VectorXd& x) = 0
+            + virtual Eigen::VectorXd calculateDiagonal() = 0
+    }
+
+    class FCI{
+        __ private members __
+            - FockSpace_sptr alpha_fock_space
+            - FockSpace_sptr beta_fock_space
+        __ constructors __
+            **FCI**(HamiltonianParameters_sptr base_hamiltonian_parameters_sptr, FockSpace_sptr fock_space);
+            **FCI**(HamiltonianParameters_sptr base_hamiltonian_parameters_sptr, FockSpace_sptr fock_space_alpha, FockSpace_sptr fock_space_beta);
+    }
+
+    class SelectedCI{
+        - SelectedFockSpace_sptr fock_space
+    }
+
+    class DOCI{
+        - FockSpace_sptr fock_space
+        == constructors ==
+        DOCI(FockSpace_sptr fock_space)
+    }
+
+    RestrictedHamiltonianBuilder --|> FCI
+    RestrictedHamiltonianBuilder --|> DOCI
+    RestrictedHamiltonianBuilder --|> SelectedCI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
