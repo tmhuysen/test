@@ -48,7 +48,6 @@ set(PROJECT_INCLUDE_FOLDER ${CMAKE_SOURCE_DIR}/include)
 set(PROJECT_INCLUDE_FILES
         ${PROJECT_INCLUDE_FOLDER}/FockSpace/BaseFockSpace.hpp
         ${PROJECT_INCLUDE_FOLDER}/FockSpace/FockSpace.hpp
-        ${PROJECT_INCLUDE_FOLDER}/FockSpace/SelectedFockSpace.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/RestrictedHamiltonianBuilder.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/FCI.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/DOCI.hpp
