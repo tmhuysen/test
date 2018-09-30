@@ -1,5 +1,7 @@
 #include "FockSpace/FockSpace.hpp"
-
+#include <boost/numeric/conversion/converter.hpp>
+#include <boost/math/special_functions.hpp>
+#include <FockSpace/FockSpace.hpp>
 
 
 namespace GQCG {
@@ -28,7 +30,6 @@ size_t ulongNextPermutation(size_t representation) {
 
 
 
-
 /*
  *  CONSTRUCTORS
  */
@@ -37,10 +38,21 @@ size_t ulongNextPermutation(size_t representation) {
  *  Constructor based on a given @param K and @param N on which the dimension of the fock space is based.
  */
 FockSpace::FockSpace(size_t K, size_t N) :
-        BaseFockSpace(size_t K)
-{
-    auto dim_double = boost::math::binomial_coefficient<double>(static_cast<unsigned>(K), static_cast<unsigned>(N_P));
-    this->dim = boost::numeric::converter<double, size_t>::convert(dim_double);
+        BaseFockSpace(K), N(N), dim(FockSpace::calculateDimension(K,N)){}
+
+
+
+/*
+ *  STATIC PUBLIC METHODS
+ */
+
+/**
+ *  Given a number of spatial orbitals @param K and a number of electrons  @param N, @return the dimension of
+ *  the Fock space.
+ */
+size_t FockSpace::calculateDimension(size_t K, size_t N) {
+    auto dim_double = boost::math::binomial_coefficient<double>(static_cast<unsigned>(K), static_cast<unsigned>(N));
+    return boost::numeric::converter<double, size_t>::convert(dim_double);
 }
 
 
@@ -52,7 +64,7 @@ FockSpace::FockSpace(size_t K, size_t N) :
 /**
  *  @return ONV with the corresponding address in the considered space
  */
-FockSpace::ONV get_ONV(size_t address){
+ONV FockSpace::get_ONV(size_t address){
     size_t representation;
     if (this->N == 0) {
         representation = 0;
@@ -67,7 +79,7 @@ FockSpace::ONV get_ONV(size_t address){
 
             if (weight <= address) {  // the algorithm can move diagonally, so we found an occupied orbital
                 address -= weight;
-                representation |= (static_cast<T>(1) << (p - 1));  // set the (p-1)th bit: see (https://stackoverflow.com/a/47990)
+                representation |= ((1) << (p - 1));  // set the (p-1)th bit: see (https://stackoverflow.com/a/47990)
 
                 m--;  // since we found an occupied orbital, we have one electron less
                 if (m == 0) {
@@ -77,7 +89,7 @@ FockSpace::ONV get_ONV(size_t address){
         }
     }
 
-    return ONV(K,N,representation)
+    return ONV( K,  N,  representation);
 
 }
 
@@ -88,7 +100,7 @@ FockSpace::ONV get_ONV(size_t address){
  *  and updates the corresponding occupation indexes
  */
 void FockSpace::setNext(ONV &onv) {
-    onv.set(ulongNextPermutation(onv.unsigned_representation));
+    onv.set_representation(ulongNextPermutation(onv.unsigned_representation));
 }
 
 

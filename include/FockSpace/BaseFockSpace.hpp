@@ -2,10 +2,8 @@
 #define GQCG_BASEFOCKSPACE_HPP
 
 
-#include "common.hpp"
 #include "ONV.hpp"
-
-
+#include "common.hpp"
 
 namespace GQCG {
 

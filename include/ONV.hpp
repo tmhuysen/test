@@ -26,7 +26,7 @@ private:
     /**
      *  Tests whether the assigned amount of electrons N and the amount of set bits in the representation match
      */
-    void is_compatible(size_t l){;
+    void is_compatible(size_t l);
 
 
 
@@ -42,7 +42,7 @@ public:
     /**
      *  Overloading of operator<< for a GQCG::ONV to be used with streams
      */
-    std::ostream& operator<<(std::ostream& os, const GQCG::ONV& onv);
+    friend std::ostream& operator<<(std::ostream& os, const GQCG::ONV& onv);
 
 
     // GETTERS & SETTERS

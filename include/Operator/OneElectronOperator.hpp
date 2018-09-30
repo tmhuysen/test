@@ -14,7 +14,7 @@ namespace GQCG {
 /**
  *  A class that holds the matrix representation of a one-electron operator in an orbital basis
  */
-class OneElectronOperator : public BaseOperator {
+class OneElectronOperator : public GQCG::BaseOperator {
 private:
     Eigen::MatrixXd matrix;  // the matrix unsigned_representation of the one-electron operator
 
@@ -74,7 +74,7 @@ public:
     friend class HamiltonianParameters;
 };
 
-
+typedef std::shared_ptr<GQCG::OneElectronOperator> OneElectronOperator_sptr;
 
 }  // namespace GQCG
 

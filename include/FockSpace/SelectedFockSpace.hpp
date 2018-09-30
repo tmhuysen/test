@@ -9,7 +9,7 @@
 namespace GQCG {
 
 
-class SelectedFockSpace: public BaseFockSpace {
+class SelectedFockSpace: public GQCG::BaseFockSpace {
 private:
     const size_t N_A;  // number of alpha_electrons
     const size_t N_B;  // number of beta_electrons

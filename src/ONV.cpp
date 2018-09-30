@@ -1,3 +1,4 @@
+#include <bitset>
 #include "ONV.hpp"
 
 
@@ -43,10 +44,10 @@ void ONV::is_compatible(size_t l){
 /**
  *  Constructor from a @param K orbitals, N electrons and a representation for the ONV
  */
-ONV::ONV(size_t K, size_t N, size_t representation): K(K), N(N), representation(representation){
+ONV::ONV(size_t K, size_t N, size_t representation): K(K), N(N), unsigned_representation(representation){
     occupation_indexes = size_t_sptr(new size_t[N]);
-    is_compatible(this->representation);  // throws error if the constructor parameters are not compatible;
-    representation_to_array(this->representation);
+    is_compatible(this->unsigned_representation);  // throws error if the constructor parameters are not compatible;
+    representationToArray(this->unsigned_representation);
 }
 
 
@@ -56,16 +57,11 @@ ONV::ONV(size_t K, size_t N, size_t representation): K(K), N(N), representation(
  */
 
 /**
- *  @return occupied orbital based on the electron index
- */
-size_t ONV::get_occupied_orbital(size_t electron_index) { return occupation_indexes.get()[electron_index]; }
-
-/**
  *  Overloading of operator<< for a GQCG::ONV to be used with streams
  */
 std::ostream& operator<<(std::ostream& os, const GQCG::ONV& onv) {
-    const char* begin = reinterpret_cast<const char*>(&representation);
-    const char* end = beg + K;
+    const char* begin = reinterpret_cast<const char*>(&onv.unsigned_representation);
+    const char* end = begin + onv.K;
     while(begin != end) {
         os << std::bitset<CHAR_BIT>(*begin++);
     }
@@ -83,13 +79,15 @@ std::ostream& operator<<(std::ostream& os, const GQCG::ONV& onv) {
  */
 void ONV::set_representation(size_t unsigned_representation) {
     this->unsigned_representation = unsigned_representation;
-    representation_to_array(unsigned_representation);
+    representationToArray(unsigned_representation);
 }
 
 /**
  *  @return occupied orbital based on the electron index
  */
-size_t ONV::get_occupied_orbital(size_t electron_index) { return occupation_indexes.get()[electron_index]; }
+size_t ONV::get_occupied_orbital(size_t electron_index) {
+    return occupation_indexes.get()[electron_index];
+}
 
 
 }  // namespace GQCG

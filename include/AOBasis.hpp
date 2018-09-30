@@ -37,6 +37,7 @@ public:
     friend class LibintCommunicator;
 };
 
+typedef std::shared_ptr<GQCG::AOBasis> AOBasis_sptr;
 
 }  // namespace GQCG
 

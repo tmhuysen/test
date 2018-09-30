@@ -13,8 +13,7 @@
 
 namespace GQCG {
 
-
-class HamiltonianParameters : public BaseHamiltonianParameters {
+class HamiltonianParameters : public GQCG::BaseHamiltonianParameters {
 private:
     OneElectronOperator S;  // overlap
 
@@ -76,8 +75,13 @@ public:
      *  Furthermore @member C is updated to reflect the total transformation between the new molecular orbital basis and the initial atomic orbitals
      */
     void rotate(const GQCG::JacobiRotationParameters& jacobi_rotation_parameters);
+
+
+    // FRIEND CLASSES
+    friend class RestrictedHamiltonianBuilder;
 };
 
+typedef std::shared_ptr<GQCG::HamiltonianParameters> HamiltonianParameters_sptr;
 
 }  // namespace GQCG
 
