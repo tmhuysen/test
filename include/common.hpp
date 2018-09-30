@@ -22,7 +22,7 @@ typedef std::shared_ptr<GQCG::AOBasis> AOBasis_sptr;
 typedef std::shared_ptr<GQCG::HamiltonianParameters> HamiltonianParameters_sptr;
 typedef std::shared_ptr<GQCG::FockSpace> FockSpace_sptr;
 typedef std::shared_ptr<GQCG::OneElectronOperator> OneElectronOperator_sptr;
-typedef std::shared_ptr<GQCG::TwoElectronOperator> TwoElectronOperator_sptr;
+typedef std::shared_ptr<size_t> size_t_sptr;
 
 
 }  // namespace GQCG

@@ -16,7 +16,7 @@ namespace GQCG {
  */
 class TwoElectronOperator : public BaseOperator {
 private:
-    Eigen::Tensor<double, 4> tensor;  // the matrix representation of the two-electron operator
+    Eigen::Tensor<double, 4> tensor;  // the matrix unsigned_representation of the two-electron operator
 
 
 public:

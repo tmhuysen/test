@@ -16,7 +16,7 @@ namespace GQCG {
  */
 class BaseOperator {
 protected:
-    const size_t dim;  // dimension of the matrix representation of the operator
+    const size_t dim;  // dimension of the matrix unsigned_representation of the operator
 
 
 public:

@@ -31,7 +31,7 @@ public:
      *  operator @param g and a transformation matrix between the current molecular orbitals and the atomic orbitals
      *  @param C
      */
-    HamiltonianParameters(std::shared_ptr<GQCG::AOBasis> ao_basis_sptr, const GQCG::OneElectronOperator& S, const GQCG::OneElectronOperator& h, const GQCG::TwoElectronOperator& g, const Eigen::MatrixXd& C);
+    HamiltonianParameters(AOBasis_sptr ao_basis_sptr, const GQCG::OneElectronOperator& S, const GQCG::OneElectronOperator& h, const GQCG::TwoElectronOperator& g, const Eigen::MatrixXd& C);
 
 
     // DESTRUCTORS

@@ -43,6 +43,12 @@ set(PROJECT_INCLUDE_FOLDER ${CMAKE_SOURCE_DIR}/include)
 
 # Find the header files
 set(PROJECT_INCLUDE_FILES
+        ${PROJECT_INCLUDE_FOLDER}/FockSpace/BaseFockSpace.hpp
+        ${PROJECT_INCLUDE_FOLDER}/FockSpace/FockSpace.hpp
+        ${PROJECT_INCLUDE_FOLDER}/FockSpace/SelectedFockSpace.hpp
+        ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/RestrictedHamiltonianBuilder.hpp
+        ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/FCI.hpp
+        ${PROJECT_INCLUDE_FOLDER}/HamiltonianBuilder/DOCI.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianParameters/BaseHamiltonianParameters.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianParameters/HamiltonianParameters.hpp
         ${PROJECT_INCLUDE_FOLDER}/HamiltonianParameters/HamiltonianParameters_constructors.hpp
@@ -58,6 +64,7 @@ set(PROJECT_INCLUDE_FILES
         ${PROJECT_INCLUDE_FOLDER}/LibintCommunicator.hpp
         ${PROJECT_INCLUDE_FOLDER}/miscellaneous.hpp
         ${PROJECT_INCLUDE_FOLDER}/Molecule.hpp
+        ${PROJECT_INCLUDE_FOLDER}/ONV.hpp
         ${PROJECT_INCLUDE_FOLDER}/units.hpp)
 
 # Find the tests folder

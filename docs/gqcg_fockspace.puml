@@ -37,15 +37,30 @@ namespace gqcg {
             - SelectedCISupport
             - const size_t N_A
             - const size_t N_B
-            - const size_t full_dim
-            - const size_t considered_dim
+            - const size_t dim_full
+            - const size_t dim_considered
+            - const size_t dim_alpha
+            - const size_t dim_beta
         == constructors ==
             **SelectedFockSpace**(size_t K, size_t N_B, size_t N_A, std::vector<address_pair> address_list);
         __ public methods __
             + ONV get_ONV(size_t address)
     }
 
+    class SelectedDOFockSpace {
+        __ private members __
+            - SelectedCISupport
+            - const size_t N_P
+            - const size_t full_dim
+            - const size_t considered_dim
+        == constructors ==
+            **SelectedFockSpace**(size_t K, size_t N_P, std::vector<size_t> address_list);
+        __ public methods __
+            + ONV get_ONV(size_t address)
+    }
+
     BaseFockSpace --|> FockSpace
+    BaseFockSpace --|> SelectedDOFockSpace
     BaseFockSpace --|> SelectedFockSpace
 
 
@@ -70,18 +85,31 @@ namespace gqcg {
     }
 
     class SelectedCI{
-        - SelectedFockSpace_sptr fock_space
+        __ private members __
+            - SelectedFockSpace_sptr fock_space
+        == constructors ==
+            **SelectedCI**(FockSpace_sptr fock_space)
     }
 
-    class DOCI{
-        - FockSpace_sptr fock_space
+    class SelectedDOCI{
+        __ private members __
+            - SelectedFockSpace_sptr fock_space
         == constructors ==
-        DOCI(FockSpace_sptr fock_space)
+            **SelectedCI**(FockSpace_sptr fock_space)
+    }
+
+
+    class DOCI{
+        __ private members __
+            - FockSpace_sptr fock_space
+        == constructors ==
+            **DOCI**(FockSpace_sptr fock_space)
     }
 
     RestrictedHamiltonianBuilder --|> FCI
     RestrictedHamiltonianBuilder --|> DOCI
     RestrictedHamiltonianBuilder --|> SelectedCI
+    RestrictedHamiltonianBuilder --|> SelectedDOCI
 
 
 

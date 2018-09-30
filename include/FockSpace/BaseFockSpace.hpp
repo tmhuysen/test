@@ -19,7 +19,7 @@ protected:
     /**
      *  Protected constructor given a @param K, N and dim
      */
-    explicit BaseFockSpace(size_t K);
+    explicit BaseFockSpace(size_t K):K(K){};
 
 
 
@@ -36,6 +36,13 @@ public:
      *  @return ONV with the corresponding address in the considered space
      */
     virtual ONV get_ONV(size_t address) = 0;
+
+    /**
+     *  sets @param ONV to the next ONV in the space
+     */
+    virtual void setNext(ONV &onv) = 0;
+
+
 };
 
 

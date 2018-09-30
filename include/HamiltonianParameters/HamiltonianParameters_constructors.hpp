@@ -23,7 +23,7 @@ namespace GQCG {
  *      - two-electron contributions:
  *          - Coulomb repulsion
  */
-GQCG::HamiltonianParameters constructMolecularHamiltonianParameters(std::shared_ptr<GQCG::AOBasis> ao_basis_sptr);
+GQCG::HamiltonianParameters constructMolecularHamiltonianParameters(AOBasis_sptr ao_basis_sptr);
 
 
 

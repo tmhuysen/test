@@ -16,6 +16,17 @@ private:
     Matrixu vertex_weights;
 
 
+    // PRIVATE METHODS
+    /**
+     *  In-place permute the representation, giving the next bitstring permutation in reverse lexical ordering.
+     *
+     *      Examples:
+     *          011 -> 101
+     *          101 -> 110
+     */
+    size_t ulongNextPermutation(size_t representation) ;
+
+
 
 public:
     // CONSTRUCTORS
@@ -42,6 +53,13 @@ public:
      *  @return weights as size_t from the vertex_weight matrix associated with the ONVs in the Fock space
      */
     size_t get_vertex_weights(size_t p, size_t m) const { return this->vertex_weights[p][m];}
+
+    /**
+     *  sets @param ONV to the next ONV in the space
+     *  performs the ulongNextPermutation() function
+     *  and updates the corresponding occupation indexes
+     */
+    void setNext(ONV &onv)
 };
 
 
