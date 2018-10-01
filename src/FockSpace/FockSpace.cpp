@@ -18,7 +18,7 @@ namespace GQCG {
  *          011 -> 101
  *          101 -> 110
  */
-size_t ulongNextPermutation(size_t representation) {
+size_t FockSpace::ulongNextPermutation(size_t representation) {
 
     // t gets this->representation's least significant 0 bits set to 1
     unsigned long t = representation | (representation - 1UL);
@@ -112,12 +112,11 @@ size_t FockSpace::get_address(ONV &onv){
     size_t address = 0;
     size_t m = 0;  // counts the number of electrons in the spin string up to orbital p
     unsigned long unsigned_onv = onv.unsigned_representation;
-    for(size_t p = 1; p < this->K + 1; p++) {  // p is the orbital index counter (starting from 1)
-        if ((unsigned_onv >> (p-1)) & (1UL)) {  // test the (p-1)th bit (https://stackoverflow.com/a/47990/7930415
-            // p-1 because computers start at 0
-            m++;
-            address += get_vertex_weights(p - 1, m);
-        }
+    while(unsigned_onv != 0) {  // p is the orbital index counter (starting from 1)
+        size_t p = __builtin_ctzl(unsigned_onv);
+        m++;
+        address += get_vertex_weights(p - 1, m);
+        unsigned_onv ^= unsigned_onv & -unsigned_onv;
     }
     return address;
 }

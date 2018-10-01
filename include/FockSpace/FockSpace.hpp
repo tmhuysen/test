@@ -47,6 +47,7 @@ public:
      *  @return weights as size_t from the vertex_weight matrix associated with the ONVs in the Fock space
      */
     size_t get_vertex_weights(size_t p, size_t m) const { return this->vertex_weights[p][m];}
+    Matrixu get_vertex_weights() const { return this->vertex_weights;}
 
     size_t get_dimension(){ return dim;}
 

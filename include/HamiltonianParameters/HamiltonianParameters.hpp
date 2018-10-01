@@ -79,6 +79,8 @@ public:
 
     // FRIEND CLASSES
     friend class RestrictedHamiltonianBuilder;
+    friend class DOCI;
+    friend class FCI;
 };
 
 typedef std::shared_ptr<GQCG::HamiltonianParameters> HamiltonianParameters_sptr;

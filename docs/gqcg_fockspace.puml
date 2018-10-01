@@ -80,7 +80,6 @@ namespace gqcg {
             - FockSpace_sptr alpha_fock_space
             - FockSpace_sptr beta_fock_space
         __ constructors __
-            **FCI**(HamiltonianParameters_sptr base_hamiltonian_parameters_sptr, FockSpace_sptr fock_space);
             **FCI**(HamiltonianParameters_sptr base_hamiltonian_parameters_sptr, FockSpace_sptr fock_space_alpha, FockSpace_sptr fock_space_beta);
     }
 

@@ -35,6 +35,7 @@ public:
     // FRIEND CLASSES
     friend class HamiltonianParameters;
     friend class LibintCommunicator;
+    friend class DOCI;
 };
 
 typedef std::shared_ptr<GQCG::AOBasis> AOBasis_sptr;
