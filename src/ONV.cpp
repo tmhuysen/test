@@ -12,7 +12,8 @@ namespace GQCG {
 /**
  *  Extracts the positions of the set bits from the representation and places them in an array
  */
-void ONV::representationToArray(size_t l){
+void ONV::update(){
+    size_t l = this->unsigned_representation;
     int i = 0;
     while(l != 0){
         this->occupation_indexes.get()[i] = __builtin_ctzl(l);
@@ -47,7 +48,7 @@ void ONV::is_compatible(size_t l){
 ONV::ONV(size_t K, size_t N, size_t representation): K(K), N(N), unsigned_representation(representation){
     occupation_indexes = size_t_sptr(new size_t[N]);
     is_compatible(this->unsigned_representation);  // throws error if the constructor parameters are not compatible;
-    representationToArray(this->unsigned_representation);
+    update();
 }
 
 
@@ -79,7 +80,7 @@ std::ostream& operator<<(std::ostream& os, const GQCG::ONV& onv) {
  */
 void ONV::set_representation(size_t unsigned_representation) {
     this->unsigned_representation = unsigned_representation;
-    representationToArray(unsigned_representation);
+    update();
 }
 
 /**
@@ -88,6 +89,7 @@ void ONV::set_representation(size_t unsigned_representation) {
 size_t ONV::get_occupied_orbital(size_t electron_index) {
     return occupation_indexes.get()[electron_index];
 }
+
 
 
 }  // namespace GQCG

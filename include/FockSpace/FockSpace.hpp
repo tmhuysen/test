@@ -47,8 +47,13 @@ public:
      *  @return weights as size_t from the vertex_weight matrix associated with the ONVs in the Fock space
      */
     size_t get_vertex_weights(size_t p, size_t m) const { return this->vertex_weights[p][m];}
+
     size_t get_dimension(){ return dim;}
 
+    /**
+     *  @return the address (i.e. the ordering number) of the @param onv in reverse lexical ordering, in the fock space.
+     */
+    size_t get_address(ONV &onv);
 
     // STATIC PUBLIC METHODS
     /**

@@ -89,7 +89,7 @@ ONV FockSpace::get_ONV(size_t address){
         }
     }
 
-    return ONV( K,  N,  representation);
+    return ONV(K, N, representation);
 
 }
 
@@ -103,6 +103,24 @@ void FockSpace::setNext(ONV &onv) {
     onv.set_representation(ulongNextPermutation(onv.unsigned_representation));
 }
 
+
+/**
+ *  @return the address (i.e. the ordering number) of the @param onv in reverse lexical ordering, in the fock space.
+ */
+size_t FockSpace::get_address(ONV &onv){
+    // An implementation of the formula in Helgaker, starting the addressing count from zero
+    size_t address = 0;
+    size_t m = 0;  // counts the number of electrons in the spin string up to orbital p
+    unsigned long unsigned_onv = onv.unsigned_representation;
+    for(size_t p = 1; p < this->K + 1; p++) {  // p is the orbital index counter (starting from 1)
+        if ((unsigned_onv >> (p-1)) & (1UL)) {  // test the (p-1)th bit (https://stackoverflow.com/a/47990/7930415
+            // p-1 because computers start at 0
+            m++;
+            address += get_vertex_weights(p - 1, m);
+        }
+    }
+    return address;
+}
 
 
 }  // namespace GQCG
