@@ -13,7 +13,7 @@ namespace GQCG {
 
 class DOCI : public GQCG::RestrictedHamiltonianBuilder {
 private:
-    FockSpace* fock_space;
+    FockSpace fock_space;
     size_t dim;
 
 
@@ -22,7 +22,7 @@ public:
     /**
      *  constructor given a @param HamiltonianParameters and FockSpace
      */
-    explicit DOCI(HamiltonianParameters &hamiltonian_parameters, FockSpace &fock_space);
+    explicit DOCI(HamiltonianParameters hamiltonian_parameters, FockSpace fock_space);
 
     // DESTRUCTOR
     ~DOCI() = default;

@@ -25,10 +25,7 @@ protected:
     /**
      *  Protected constructor given a @param HamiltonianParameters
      */
-    explicit RestrictedHamiltonianBuilder(HamiltonianParameters hamiltonian_parameters) :
-    hamiltonian_parameters(hamiltonian_parameters),
-    h(hamiltonian_parameters.h),
-    g(hamiltonian_parameters.g) {}
+    explicit RestrictedHamiltonianBuilder(HamiltonianParameters hamiltonian_parameters);
 
 
 public:
