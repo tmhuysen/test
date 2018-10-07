@@ -8,7 +8,6 @@
 
 
 BOOST_AUTO_TEST_CASE ( JacobiRotationParameters_constructor ) {
-
     // Check if a correct constructor works
     GQCG::JacobiRotationParameters jacobi_parameters (3, 1, 0.5);
 

@@ -14,8 +14,6 @@ namespace GQCG {
 
 class RestrictedHamiltonianBuilder {
 protected:
-    OneElectronOperator h;
-    TwoElectronOperator g;
     HamiltonianParameters hamiltonian_parameters;  // the hamiltonian parameters passed for the calculations
 
     Eigen::VectorXd diagonal;
