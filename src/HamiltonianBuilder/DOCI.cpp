@@ -14,11 +14,11 @@ DOCI::DOCI(HamiltonianParameters hamiltonian_parameters, FockSpace fock_space):
     dim(fock_space.get_dimension())
 
 {
-    auto K = this->hamiltonian_parameters->ao_basis_sptr->number_of_basis_functions;
+    auto K = this->hamiltonian_parameters.ao_basis_sptr->get_number_of_basis_functions();
     if(K != this->fock_space.K){
         throw std::invalid_argument("Basis functions of the Fock space and AObasis are incompatible.");
     }
-    //this->diagonal = calculateDiagonal();
+    this->diagonal = calculateDiagonal();
 }
 
 
@@ -75,8 +75,7 @@ Eigen::MatrixXd DOCI::constructHamiltonian() {
 Eigen::VectorXd DOCI::matrixVectorProduct(const Eigen::VectorXd& x) {
 
     // Create the first spin string. Since in DOCI, alpha == beta, we can just treat them as one.
-    ONV onv = fock_space.get_ONV(0);  // spin string with address 0
-
+    ONV onv = fock_space.get_ONV(0);  // spin string with address
 
     // Diagonal contributions
     Eigen::VectorXd matvec = this->diagonal.cwiseProduct(x);
@@ -126,13 +125,11 @@ Eigen::VectorXd DOCI::calculateDiagonal() {
         }
         for (size_t e1 = 0; e1 < this->fock_space.N; e1++) {  // e1 (electron 1) loops over the (number of) electrons
             size_t p = onv.get_occupied_orbital(e1);
-            std::cout<<this->fock_space.K;
-            std::cout<<p;
-            this->diagonal(I) += 2 * this->hamiltonian_parameters.h.get(p,p) + this->hamiltonian_parameters.g.get(p,p,p,p);
+            diagonal(I) += 2 * this->hamiltonian_parameters.h.get(p,p) + this->hamiltonian_parameters.g.get(p,p,p,p);
             for (size_t e2 = 0; e2 < e1; e2++) {  // e2 (electron 2) loops over the (number of) electrons
                 // Since we are doing a restricted summation q<p (and thus e2<e1), we should multiply by 2 since the summand argument is symmetric.
                 size_t q = onv.get_occupied_orbital(e2);
-                this->diagonal(I) += 2 * (2*this->hamiltonian_parameters.g.get(p,p,q,q) - this->hamiltonian_parameters.g.get(p,q,q,p));
+                diagonal(I) += 2 * (2*this->hamiltonian_parameters.g.get(p,p,q,q) - this->hamiltonian_parameters.g.get(p,q,q,p));
             }  // e2 loop
         } // e1 loop
     }  // address (I) loop

@@ -2,7 +2,7 @@
 
 
 #include "HamiltonianBuilder/DOCI.hpp"
-
+#include "HamiltonianParameters/HamiltonianParameters_constructors.hpp"
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/included/unit_test.hpp>  // include this to get main(), otherwise the compiler will complain
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_constructor ) {
 
     GQCG::HamiltonianParameters random_hamiltonian_parameters (ao_basis_ptr, S, H_core, g, C);
     GQCG::FockSpace fock_space(K,3);
-
+    std::cout<<" K : "<<K<<" ";
     // Check if a correct constructor works and public methods don't fail
     BOOST_CHECK_NO_THROW(GQCG::DOCI random_doci(random_hamiltonian_parameters,fock_space));
     // Check if faulty constructor parameters throw an error
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_constructor ) {
 }
 
 
-BOOST_AUTO_TEST_CASE ( DOCI_public_methods ) {
+BOOST_AUTO_TEST_CASE ( DOCI_calculate_diagonal ) {
     // Create an AOBasis
     GQCG::Molecule water ("../tests/data/h2o.xyz");
     auto ao_basis_ptr = std::make_shared<GQCG::AOBasis>(water, "STO-3G");
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_public_methods ) {
     BOOST_CHECK_NO_THROW(random_doci.matrixVectorProduct(x));
 }
 
-
+/*
 BOOST_AUTO_TEST_CASE ( h2_sto3g_szabo_plain ) {
 
    // In this test case, we will follow section 3.5.2 in Szabo.
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE ( h2_sto3g_szabo_plain ) {
    double total_energy = rhf.get_electronic_energy() + h2.calculateInternuclearRepulsionEnergy();
    BOOST_CHECK(std::abs(total_energy - ref_total_energy) < 1.0e-04);
 }
-
+*/
 
 // dim = 120
 BOOST_AUTO_TEST_CASE ( DOCI_beh_cation_klaas_dense ) {
@@ -103,9 +103,9 @@ BOOST_AUTO_TEST_CASE ( DOCI_beh_cation_klaas_dense ) {
    auto ham_par = GQCG::readFCIDUMPFile("../tests/data/beh_cation_631g_caitlin.FCIDUMP");
    GQCG::FockSpace fock_space(16,4);
    GQCG::DOCI doci(ham_par,fock_space);
-   Eigen::MartrixXd ham = doci.constructHamiltonian();
-   Eigen::EigenSolver<MatrixXd> eigenSolver(ham);
-   auto doci_eigenvalue = eigenSolver.eigenvalues(0);
+   Eigen::MatrixXd ham = doci.constructHamiltonian();
+   Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(ham);
+   auto doci_eigenvalue = eigenSolver.eigenvalues()(0);
    // Calculate the total energy
    double internuclear_repulsion_energy = 1.5900757460937498e+00;  // this comes straight out of the FCIDUMP file
    double test_doci_energy = doci_eigenvalue + internuclear_repulsion_energy;
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_beh_cation_klaas_dense ) {
    BOOST_CHECK(std::abs(test_doci_energy - (reference_doci_energy)) < 1.0e-9);
 }
 
-
+/*
 // dim = 120
 BOOST_AUTO_TEST_CASE ( DOCI_lih_klaas_dense ) {
 
@@ -162,3 +162,4 @@ BOOST_AUTO_TEST_CASE ( DOCI_li2_klaas_dense ) {
 
    BOOST_CHECK(std::abs(test_doci_energy - (reference_doci_energy)) < 1.0e-9);
 }
+ */
