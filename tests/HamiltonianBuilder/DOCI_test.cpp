@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_beh_cation_klaas_dense ) {
 
    // Do a DOCI calculation based on a given FCIDUMP file
    auto ham_par = GQCG::readFCIDUMPFile("../tests/data/beh_cation_631g_caitlin.FCIDUMP");
-   GQCG::FockSpace fock_space(16,4);
+   GQCG::FockSpace fock_space (16,2);
    GQCG::DOCI doci(ham_par,fock_space);
    Eigen::MatrixXd ham = doci.constructHamiltonian();
    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(ham);
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE ( DOCI_beh_cation_klaas_dense ) {
    double internuclear_repulsion_energy = 1.5900757460937498e+00;  // this comes straight out of the FCIDUMP file
    double test_doci_energy = doci_eigenvalue + internuclear_repulsion_energy;
 
-
+   std::cout<<eigenSolver.eigenvalues()<<std::endl;
    BOOST_CHECK(std::abs(test_doci_energy - (reference_doci_energy)) < 1.0e-9);
 }
 

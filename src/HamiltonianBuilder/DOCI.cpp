@@ -14,7 +14,7 @@ DOCI::DOCI(HamiltonianParameters hamiltonian_parameters, FockSpace fock_space):
     dim(fock_space.get_dimension())
 
 {
-    auto K = this->hamiltonian_parameters.ao_basis_sptr->get_number_of_basis_functions();
+    auto K = this->hamiltonian_parameters.get_h().get_dim();
     if(K != this->fock_space.K){
         throw std::invalid_argument("Basis functions of the Fock space and AObasis are incompatible.");
     }
@@ -31,12 +31,12 @@ DOCI::DOCI(HamiltonianParameters hamiltonian_parameters, FockSpace fock_space):
  *  @return Hamiltonian matrix as an Eigen::MatrixXd
  */
 Eigen::MatrixXd DOCI::constructHamiltonian() {
-    Eigen::MatrixXd result_matrix = Eigen::MatrixXd::Zero(dim,dim);
+    Eigen::MatrixXd result_matrix = Eigen::MatrixXd::Zero(this->dim,this->dim);
     // Create the first spin string. Since in DOCI, alpha == beta, we can just treat them as one.
-    ONV onv = fock_space.get_ONV(0);  // spin string with address 0
+    ONV onv = this->fock_space.get_ONV(0);  // spin string with address 0
 
     for (size_t I = 0; I < this->dim; I++) {  // I loops over all the addresses of the spin strings
-        if(I>0){
+        if (I>0) {
             this->fock_space.setNext(onv);
         }
         // Diagonal contribution
@@ -50,12 +50,12 @@ Eigen::MatrixXd DOCI::constructHamiltonian() {
                     onv.annihilate(p);
                     onv.create(q);
 
-                    size_t J = fock_space.getAddress(onv);  // J is the address of a string that couples to I
+                    size_t J = this->fock_space.getAddress(onv);  // J is the address of a string that couples to I
 
                     // The loops are p->K and q<p. So, we should normally multiply by a factor 2 (since the summand is symmetric)
                     // However, we are setting both of the symmetric indices of Hamiltonian, so no factor 2 is required
-                    result_matrix(I, J) += hamiltonian_parameters.g.get(p, q, p, q);
-                    result_matrix(J, I) += hamiltonian_parameters.g.get(p, q, p, q);
+                    result_matrix(I, J) += this->hamiltonian_parameters.g.get(p, q, p, q);
+                    result_matrix(J, I) += this->hamiltonian_parameters.g.get(p, q, p, q);
 
                     onv.annihilate(q);  // reset the spin string after previous creation
                     onv.create(p);  // reset the spin string after previous annihilation
@@ -75,7 +75,7 @@ Eigen::MatrixXd DOCI::constructHamiltonian() {
 Eigen::VectorXd DOCI::matrixVectorProduct(const Eigen::VectorXd& x) {
 
     // Create the first spin string. Since in DOCI, alpha == beta, we can just treat them as one.
-    ONV onv = fock_space.get_ONV(0);  // spin string with address
+    ONV onv = this->fock_space.get_ONV(0);  // spin string with address
 
     // Diagonal contributions
     Eigen::VectorXd matvec = this->diagonal.cwiseProduct(x);
@@ -83,6 +83,9 @@ Eigen::VectorXd DOCI::matrixVectorProduct(const Eigen::VectorXd& x) {
 
     // Off-diagonal contributions
     for (size_t I = 0; I < this->dim; I++) {  // I loops over all the addresses of the spin strings
+        if(I>0){
+            this->fock_space.setNext(onv);
+        }
         for (size_t e1 = 0; e1 < this->fock_space.N; e1++) {  // e1 (electron 1) loops over the (number of) electrons
             size_t p = onv.get_occupied_orbital(e1);
             for (size_t q = 0; q < p; q++) {  // q loops over SOs
@@ -91,12 +94,12 @@ Eigen::VectorXd DOCI::matrixVectorProduct(const Eigen::VectorXd& x) {
                     onv.annihilate(p);
                     onv.create(q);
 
-                    size_t J = fock_space.getAddress(onv);  // J is the address of a string that couples to I
+                    size_t J = this->fock_space.getAddress(onv);  // J is the address of a string that couples to I
 
                     // The loops are p->K and q<p. So, we should normally multiply by a factor 2 (since the summand is symmetric)
                     // However, we are setting both of the symmetric indices of Hamiltonian, so no factor 2 is required
-                    matvec(I) += hamiltonian_parameters.g.get(p, q, p, q)* x(J);
-                    matvec(J) += hamiltonian_parameters.g.get(p, q, p, q)* x(I);
+                    matvec(I) += this->hamiltonian_parameters.g.get(p, q, p, q)* x(J);
+                    matvec(J) += this->hamiltonian_parameters.g.get(p, q, p, q)* x(I);
 
                     onv.annihilate(q);  // reset the spin string after previous creation
                     onv.create(p);  // reset the spin string after previous annihilation

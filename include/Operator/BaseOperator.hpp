@@ -26,6 +26,8 @@ public:
      */
     explicit BaseOperator(size_t dimension);
 
+    // GETTERS
+    size_t get_dim(){ return dim; }
 
     // PUBLIC METHODS
     /**

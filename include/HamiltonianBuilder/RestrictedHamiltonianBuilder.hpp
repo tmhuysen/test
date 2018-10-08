@@ -12,6 +12,9 @@
 namespace GQCG {
 
 
+/**
+ *
+ */
 class RestrictedHamiltonianBuilder {
 protected:
     HamiltonianParameters hamiltonian_parameters;  // the hamiltonian parameters passed for the calculations
